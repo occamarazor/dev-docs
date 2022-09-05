@@ -4,36 +4,55 @@
 ```
 yarn init
 ```
-```
-{
-  "scripts": {
-    "lint": "yarn eslint . --fix --max-warnings=0",
-    "format": "yarn prettier . --write"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  }
-}
 
+## ESLint install
+```
+npm init @eslint/config
 ```
 
-## Prettier & ESLint install
+## Node configs install
 ```
-yarn add -D --exact prettier
-yarn add -D eslint-config-prettier eslint-plugin-prettier eslint-plugin-jest
+yarn add -D eslint-config-node eslint-plugin-node eslint-plugin-jsdoc
 ```
 
-## Airbnb dependencies install
+## Jest configs install
+```
+yarn add -D eslint-plugin-jest
+```
+
+## Airbnb configs install
 ```
 npx install-peerdeps --dev eslint-config-airbnb
 ```
 
+## Prettier configs install
+```
+yarn add -D --exact prettier
+yarn add -D eslint-config-prettier eslint-plugin-prettier
+```
+
 ## Git hooks install
 ```
-yarn add -D husky lint-staged
-npx husky install
-npm set-script prepare "husky install"
-npx husky add .husky/pre-commit "npx lint-staged"
+yarn add -D lint-staged
+npx husky-init && yarn
+npx husky add .husky/pre-commit "yarn lint-staged"
+```
+
+## Package.json update
+```
+{
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "eslint src/ --fix",
+    "format": "prettier src/ --write"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ]
+  }
+}
 ```
 
 ## Prettier ignore
@@ -73,34 +92,65 @@ coverage
 public
 ```
 
-## ESLint config
+## ESLint FE config
 ```
-touch .eslintrc.json
+touch .eslintrc.fe.json
 ```
 ```
 {
   "env": {
     "es2021": true,
     "browser": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:prettier/recommended"
+  ],
+  "overrides": [
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "rules": {}
+}
+```
+
+## ESLint BE config
+```
+touch .eslintrc.be.json
+```
+```
+{
+  "env": {
+    "es2021": true,
     "node": true,
     "jest/globals": true
   },
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["jest", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "overrides": [
+  ],
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
-  "rules": {},
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "moduleDirectory": ["node_modules", "src"]
-      }
-    }
-  }
+  "plugins": [
+    "node",
+    "jest",
+    "jsdoc"
+  ],
+  "rules": {}
 }
 ```
