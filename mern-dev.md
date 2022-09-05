@@ -1,4 +1,4 @@
-## MERN dev setup
+# MERN dev setup
 
 ## Project init
 ```

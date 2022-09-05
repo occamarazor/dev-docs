@@ -1,3 +1,4 @@
+# MacOS dev setup
 ## XCODE
 ### remove old xcode
 `sudo rm -rf /Library/Developer/CommandLineTools`
