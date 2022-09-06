@@ -48,7 +48,7 @@ npx husky add .husky/pre-commit "yarn lint-staged"
   },
   "lint-staged": {
     "src/**/*.js": [
-      "eslint --fix",
+      "eslint --fix --max-warnings=0",
       "prettier --write --ignore-unknown"
     ]
   }
