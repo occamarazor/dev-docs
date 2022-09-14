@@ -43,32 +43,32 @@ npx husky add .husky/pre-commit "yarn lint-staged"
 {
   "scripts": {
     "prepare": "husky install",
-    "lint": "eslint src/ --fix",
-    "format": "prettier src/ --write"
+    "lint": "eslint . --fix",
+    "format": "prettier . --write"
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "eslint --fix --max-warnings=0",
+    "*.js": "eslint --fix --max-warnings=0",
+    "*.(json|css|md)": [
       "prettier --write --ignore-unknown"
     ]
   }
 }
 ```
 
-## Prettier ignore
-```
-touch .prettierignore
-```
+## Prettier FE ignore
 ```
 node_modules
 coverage
 public
 ```
 
+## Prettier BE ignore
+```
+node_modules
+coverage
+```
+
 ## Prettier config
-```
-touch .prettierrc.json
-```
 ```
 {
 "printWidth": 100,
@@ -82,10 +82,7 @@ touch .prettierrc.json
 }
 ```
 
-## ESLint ignore
-```
-touch .eslintignore
-```
+## ESLint FE ignore
 ```
 node_modules
 coverage
@@ -94,39 +91,33 @@ public
 
 ## ESLint FE config
 ```
-touch .eslintrc.fe.json
-```
-```
 {
   "env": {
     "es2021": true,
     "browser": true,
     "jest/globals": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "airbnb",
-    "airbnb/hooks",
-    "plugin:prettier/recommended"
-  ],
-  "overrides": [
-  ],
+  "extends": ["plugin:react/recommended", "airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "jest"
-  ],
-  "rules": {}
+  "plugins": ["react", "jest"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": "off",
+    "react/function-component-definition": "off"
+  }
 }
 ```
 
+## ESLint BE ignore
+```
+node_modules
+coverage
+```
+
 ## ESLint BE config
-```
-touch .eslintrc.be.json
-```
 ```
 {
   "env": {
@@ -137,20 +128,21 @@ touch .eslintrc.be.json
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
-    "airbnb",
+    "airbnb-base",
     "plugin:prettier/recommended"
-  ],
-  "overrides": [
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "node",
-    "jest",
-    "jsdoc"
-  ],
-  "rules": {}
+  "plugins": ["node", "jest", "jsdoc"],
+  "rules": {
+    "import/extensions": [
+      "error",
+      {
+        "js": "ignorePackages"
+      }
+    ]
+  }
 }
 ```
